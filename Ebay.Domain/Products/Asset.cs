@@ -1,4 +1,5 @@
-﻿using Ebay.Domain.Shared;
+﻿using Ebay.Domain.Abstractions;
+using Ebay.Domain.Shared;
 
 namespace Ebay.Domain.Products;
 

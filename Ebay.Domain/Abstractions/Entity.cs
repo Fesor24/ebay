@@ -2,5 +2,7 @@
 
 public abstract class Entity
 {
-    public Guid Id { get; private set; } = Guid.NewGuid();
+    private Entity() { }
+    protected Entity(Guid id) => Id = id;
+    public Guid Id { get; init; }
 }
