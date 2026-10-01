@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="Ebay.Domain/Ebay.Domain.csproj" Id="054474da-2777-4a6a-9647-bc5c010ae009" />
+  </Folder>
+  <Folder Name="/test/" />
+</Solution>
