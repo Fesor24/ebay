@@ -1,4 +1,7 @@
-﻿namespace Ebay.Domain.Abstractions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http.Headers;
+
+namespace Ebay.Domain.Abstractions;
 
 public class Result
 {
@@ -38,5 +41,8 @@ public class Result<T> : Result
         _value = value;
     }
 
+    [NotNull]
     public T Value => IsSuccess ? _value! : throw new InvalidOperationException("Value can not be accessed");
+
+    public static implicit operator Result<T>(T? value) => Create(value);
 }

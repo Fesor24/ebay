@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="Ebay.Application/Ebay.Application.csproj" Id="269c2399-76f1-4b82-99db-151ec144e694" />
     <Project Path="Ebay.Domain/Ebay.Domain.csproj" Id="054474da-2777-4a6a-9647-bc5c010ae009" />
   </Folder>
   <Folder Name="/test/" />
