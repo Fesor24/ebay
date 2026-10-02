@@ -4,7 +4,7 @@ namespace Ebay.Domain.Products;
 
 public sealed class Product : AuditableEntity, ISoftDeleteable
 {
-    private Product() { }
+    //private Product() { }
     public Product(Guid id): base(id)
     {
 
