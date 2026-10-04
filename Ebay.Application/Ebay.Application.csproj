@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Ebay.Domain\Ebay.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Products\Commands\" />
+  </ItemGroup>
+
 </Project>
