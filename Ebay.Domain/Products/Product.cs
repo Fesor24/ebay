@@ -22,10 +22,18 @@ public sealed class Product : AuditableEntity, ISoftDeleteable
     public ICollection<Asset> Assets { get; private set; } = [];
 
     public static Product Create(Guid productId, string name, string description,
-        List<string> tags,string location, decimal price, string currency)
+        List<string> tags,string location, decimal price, string currency,
+        DateTime createdAtUtc)
     {
         Product product = new(productId);
         product.Status = ProductStatus.Listed;
+        product.Name = name;
+        product.Description = description;
+        product.Tags = tags;
+        product.Location = location;
+        product.Money = new Money(price, Currency.Gbp);
+
+        product.SetAudits(createdAtUtc);
 
         product.RaiseDomainEvent(new ProductCreatedDomainEvent(product.Id));
 

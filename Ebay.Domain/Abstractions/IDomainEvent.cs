@@ -1,5 +1,7 @@
-﻿namespace Ebay.Domain.Abstractions;
+﻿using MediatR;
 
-public interface IDomainEvent
+namespace Ebay.Domain.Abstractions;
+
+public interface IDomainEvent : INotification
 {
 }

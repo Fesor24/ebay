@@ -9,7 +9,7 @@ public abstract class AuditableEntity : Entity
     public DateTime CreatedAtUtc { get; private set; }
     public DateTime? UpdatedAtUtc { get; private set; }
 
-    public virtual void SetAudits(DateTime createdAtUtc, DateTime? updatedAtUtc)
+    public virtual void SetAudits(DateTime createdAtUtc, DateTime? updatedAtUtc = null)
     {
         CreatedAtUtc = createdAtUtc;
         UpdatedAtUtc = updatedAtUtc;
