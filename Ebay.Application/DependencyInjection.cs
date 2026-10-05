@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Ebay.Application.Abstractions.Behaviors;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Ebay.Application;
 
@@ -9,6 +10,8 @@ public static class DependencyInjection
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
+
+            cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
 
         return services;
