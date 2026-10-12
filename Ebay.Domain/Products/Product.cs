@@ -25,13 +25,15 @@ public sealed class Product : AuditableEntity, ISoftDeleteable
         List<string> tags,string location, decimal price, string currency,
         DateTime createdAtUtc)
     {
-        Product product = new(productId);
-        product.Status = ProductStatus.Listed;
-        product.Name = name;
-        product.Description = description;
-        product.Tags = tags;
-        product.Location = location;
-        product.Money = new Money(price, Currency.Gbp);
+        Product product = new(productId)
+        {
+            Status = ProductStatus.Listed,
+            Name = name,
+            Description = description,
+            Tags = tags,
+            Location = location,
+            Money = new Money(price, Currency.Gbp)
+        };
 
         product.SetAudits(createdAtUtc);
 

@@ -5,17 +5,23 @@ namespace Ebay.Domain.Products;
 
 public sealed class Asset : AuditableEntity
 {
-    public Guid Id { get; private set; }
+    public Asset(Guid id): base(id)
+    {
+        
+    }
     public string FileUri { get; private set; }
     public FileType FileType { get; private set; }
+    public Guid ProductId { get; private set; }
+    public Product Product { get; private set; }    
 
-    public static Asset Create(string fileUri, FileType fileType, DateTime createdAtUtc, DateTime? updatedAtUtc)
+    public static Asset Create(Guid assetId, string fileUri, 
+        FileType fileType, Guid productId, DateTime createdAtUtc, DateTime? updatedAtUtc)
     {
-        Asset asset = new()
+        Asset asset = new(assetId)
         {
             FileType = fileType,
             FileUri = fileUri,
-            Id = Guid.NewGuid()
+            ProductId = productId
         };
 
         asset.SetAudits(createdAtUtc, updatedAtUtc);
