@@ -1,6 +1,8 @@
-﻿namespace Ebay.Domain.Products;
+﻿using Ebay.Domain.Abstractions;
 
-public interface IProductRepository
+namespace Ebay.Domain.Products;
+
+public interface IProductRepository : IScopedService
 {
     Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     void Add(Product product);

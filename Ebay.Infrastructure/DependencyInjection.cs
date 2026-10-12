@@ -1,5 +1,6 @@
 ﻿using Ebay.Application.Abstractions.Clock;
 using Ebay.Application.Abstractions.Email;
+using Ebay.Domain.Abstractions;
 using Ebay.Infrastructure.Clock;
 using Ebay.Infrastructure.Email;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,34 @@ public static class DependencyInjection
             .UseSnakeCaseNamingConvention();
         });
 
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+        AddScopedServices(services);
+
         return services;
+    }
+
+    public static void AddScopedServices(IServiceCollection services)
+    {
+        var assembly = typeof(ApplicationDbContext).Assembly;
+
+        var types = assembly.GetTypes();
+
+        var implementations = types
+            .Where(type => type.IsClass &&
+            !type.IsInterface &&
+            !type.IsGenericTypeDefinition);
+
+        foreach(var implementation in implementations)
+        {
+            var serviceInterfaces = implementation.GetInterfaces()
+                .Where(i => i != typeof(IScopedService) &&
+                typeof(IScopedService).IsAssignableFrom(i));
+
+            foreach(var serviceInterface in serviceInterfaces)
+            {
+                services.AddScoped(serviceInterface, implementation);
+            }
+        }
     }
 }
