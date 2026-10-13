@@ -1,4 +1,5 @@
-﻿using Ebay.Domain.Abstractions;
+﻿using Ebay.Application.Exceptions;
+using Ebay.Domain.Abstractions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,11 +19,18 @@ internal sealed class ApplicationDbContext(DbContextOptions options, IPublisher 
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var result =  await base.SaveChangesAsync(cancellationToken);
+        try
+        {
+            var result = await base.SaveChangesAsync(cancellationToken);
 
-        await PublishDomainEventsAsync();
+            await PublishDomainEventsAsync();
 
-        return result;
+            return result;
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+            throw new ConcurrencyException("A concurrency error occured while saving changes", ex);
+        }
     }
 
     public async Task PublishDomainEventsAsync()
