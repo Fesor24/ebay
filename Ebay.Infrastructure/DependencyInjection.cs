@@ -1,7 +1,9 @@
 ﻿using Ebay.Application.Abstractions.Clock;
+using Ebay.Application.Abstractions.Data;
 using Ebay.Application.Abstractions.Email;
 using Ebay.Domain.Abstractions;
 using Ebay.Infrastructure.Clock;
+using Ebay.Infrastructure.Data;
 using Ebay.Infrastructure.Email;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +30,8 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+        services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
 
         AddScopedServices(services);
 
