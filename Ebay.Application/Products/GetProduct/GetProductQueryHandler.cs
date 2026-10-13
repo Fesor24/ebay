@@ -2,6 +2,7 @@
 using Ebay.Application.Abstractions.Data;
 using Ebay.Application.Abstractions.Messaging;
 using Ebay.Domain.Abstractions;
+using Ebay.Domain.Products;
 
 namespace Ebay.Application.Products.GetProduct;
 
@@ -37,6 +38,8 @@ internal sealed class GetProductQueryHandler : IQueryHandler<GetProductQuery, Pr
             }
             );
 
-        return product;
+        return product is null ? 
+            Result.Failure<ProductResponse>(ProductError.NotFound) : 
+            product;
     }
 }

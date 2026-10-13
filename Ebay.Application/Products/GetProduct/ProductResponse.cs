@@ -1,6 +1,6 @@
 ﻿namespace Ebay.Application.Products.GetProduct;
 
-internal sealed record ProductResponse(
+public sealed record ProductResponse(
     Guid Id,
     string Name,
     string Description,

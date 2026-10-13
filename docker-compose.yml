@@ -1,0 +1,6 @@
+services:
+  ebay.api:
+    image: ${DOCKER_REGISTRY-}ebayapi
+    build:
+      context: .
+      dockerfile: Ebay.Api/Dockerfile

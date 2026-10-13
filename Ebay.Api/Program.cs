@@ -1,13 +1,18 @@
+using Ebay.Application;
+using Ebay.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-//builder.Services.AddOpenApi();
+
+builder.Services.AddApplicationServices();
+
+builder.Services.AddInfrastructureServices(builder.Configuration);
+
 
 var app = builder.Build();
 
@@ -22,7 +27,9 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthentication();
+
+//app.UseAuthorization();
 
 app.MapControllers();
 

@@ -2,4 +2,4 @@
 
 namespace Ebay.Application.Products.GetProduct;
 
-internal sealed record GetProductQuery(Guid ProductId) : IQuery<ProductResponse>;
+public sealed record GetProductQuery(Guid ProductId) : IQuery<ProductResponse>;

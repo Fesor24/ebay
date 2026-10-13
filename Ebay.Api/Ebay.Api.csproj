@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>7bbf5e9f-c003-4481-a61c-a6da0dba4dd9</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ebay.Application\Ebay.Application.csproj" />
+    <ProjectReference Include="..\Ebay.Infrastructure\Ebay.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
