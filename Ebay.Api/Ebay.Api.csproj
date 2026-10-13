@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>7bbf5e9f-c003-4481-a61c-a6da0dba4dd9</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.24.2-preview.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.3.0" />
+  </ItemGroup>
+
+</Project>
