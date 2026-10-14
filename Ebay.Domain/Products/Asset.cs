@@ -5,6 +5,8 @@ namespace Ebay.Domain.Products;
 
 public sealed class Asset : AuditableEntity
 {
+    private Asset() { }
+
     public Asset(Guid id): base(id)
     {
         

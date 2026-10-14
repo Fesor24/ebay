@@ -1,6 +1,7 @@
 services:
   ebay.api:
     image: ${DOCKER_REGISTRY-}ebayapi
+    container_name: Ebay.Api
     build:
       context: .
       dockerfile: Ebay.Api/Dockerfile

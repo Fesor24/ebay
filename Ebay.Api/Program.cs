@@ -1,8 +1,9 @@
+using Ebay.Api.Extensions;
+using Ebay.Api.Middleware;
 using Ebay.Application;
 using Ebay.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -13,13 +14,15 @@ builder.Services.AddApplicationServices();
 
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     //app.MapOpenApi();
+
+    app.ApplyMigrations();
 }
 
 app.UseSwagger();

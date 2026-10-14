@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ebay.Infrastructure;
 
-internal sealed class ApplicationDbContext(DbContextOptions options, IPublisher publisher) : 
+public sealed class ApplicationDbContext(DbContextOptions options, IPublisher publisher) : 
     DbContext(options), IUnitOfWork
 {
     private readonly IPublisher _publisher = publisher;
