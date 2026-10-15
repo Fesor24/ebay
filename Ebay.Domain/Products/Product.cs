@@ -20,7 +20,7 @@ public sealed class Product : AuditableEntity, ISoftDeleteable
 
     public bool IsDeleted { get; private set; } = false;
     public Guid CategoryId { get; private set; }
-    public Category Category { get; private set; };
+    public Category Category { get; private set; }
     //public ICollection<Asset> Assets { get; private set; } = [];
 
     public static Product Create(Guid productId, string name, string description,

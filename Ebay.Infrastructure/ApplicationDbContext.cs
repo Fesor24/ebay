@@ -52,3 +52,8 @@ public sealed class ApplicationDbContext(DbContextOptions options, IPublisher pu
             await _publisher.Publish(domainEvent);
     }
 }
+
+internal static class Schema
+{
+    internal static string Products = "prd";
+}

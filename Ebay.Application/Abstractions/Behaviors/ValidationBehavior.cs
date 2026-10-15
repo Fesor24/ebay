@@ -1,4 +1,5 @@
 ﻿using Ebay.Application.Abstractions.Messaging;
+using Ebay.Application.Exceptions;
 using FluentValidation;
 using MediatR;
 

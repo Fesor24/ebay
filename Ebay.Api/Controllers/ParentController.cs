@@ -14,10 +14,4 @@ public class ParentController : ControllerBase
     {
         Sender = HttpContext.RequestServices.GetRequiredService<ISender>();
     }
-
-    public IActionResult HandleResponse(Result result)
-    {
-        if (result.IsSuccess)
-            return Ok(result)
-    }
 }
