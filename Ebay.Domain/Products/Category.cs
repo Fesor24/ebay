@@ -4,7 +4,7 @@ namespace Ebay.Domain.Products;
 
 public sealed class Category : Entity
 {
-    private Category() { }
+    public Category() { }
     public Category(Guid id) : base(id) { }
 
     public string Name { get; private set; }

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Ebay.Api.Extensions;
 using Ebay.Api.Middleware;
 using Ebay.Application;
@@ -23,6 +24,8 @@ if (app.Environment.IsDevelopment())
     //app.MapOpenApi();
 
     //app.ApplyMigrations();
+
+    //await SeedAsync(app);
 }
 
 app.UseSwagger();
@@ -37,3 +40,14 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+
+async Task SeedAsync(IApplicationBuilder app)
+{
+    var scope = app.ApplicationServices.CreateScope();
+
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    var randomDataSeed = new RandomDataDbSeed(dbContext);
+
+    await randomDataSeed.InputData();
+}
