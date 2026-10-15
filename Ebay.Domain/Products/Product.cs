@@ -19,10 +19,12 @@ public sealed class Product : AuditableEntity, ISoftDeleteable
     public string Location { get; private set;  }
 
     public bool IsDeleted { get; private set; } = false;
-    public ICollection<Asset> Assets { get; private set; } = [];
+    public Guid CategoryId { get; private set; }
+    public Category Category { get; private set; };
+    //public ICollection<Asset> Assets { get; private set; } = [];
 
     public static Product Create(Guid productId, string name, string description,
-        List<string> tags,string location, decimal price, string currency,
+        List<string> tags,string location, decimal price, Guid categoryId, string currency,
         DateTime createdAtUtc)
     {
         Product product = new(productId)
@@ -32,7 +34,8 @@ public sealed class Product : AuditableEntity, ISoftDeleteable
             Description = description,
             Tags = tags,
             Location = location,
-            Money = new Money(price, Currency.Gbp)
+            Money = new Money(price, Currency.Gbp),
+            CategoryId = categoryId
         };
 
         product.SetAudits(createdAtUtc);

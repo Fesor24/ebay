@@ -18,9 +18,13 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
                 .HasConversion(currency => currency.Code, code => Currency.FromCode(code));
         });
 
-        builder.HasMany(p => p.Assets)
-            .WithOne(ass => ass.Product)
-            .HasForeignKey(ass => ass.Product);
+        //builder.HasMany(p => p.Assets)
+        //  .WithOne(ass => ass.Product)
+        //.HasForeignKey(ass => ass.Product);
+
+        builder.HasOne(prd => prd.Category)
+            .WithMany(cat => cat.Products)
+            .HasForeignKey(prd => prd.CategoryId);
 
     }
 }

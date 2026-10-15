@@ -13,8 +13,8 @@ public sealed class Asset : AuditableEntity
     }
     public string FileUri { get; private set; }
     public FileType FileType { get; private set; }
-    public Guid ProductId { get; private set; }
-    public Product Product { get; private set; }    
+    //public Guid ProductId { get; private set; }
+    //public Product Product { get; private set; }    
 
     public static Asset Create(Guid assetId, string fileUri, 
         FileType fileType, Guid productId, DateTime createdAtUtc, DateTime? updatedAtUtc)
@@ -23,7 +23,7 @@ public sealed class Asset : AuditableEntity
         {
             FileType = fileType,
             FileUri = fileUri,
-            ProductId = productId
+            //ProductId = productId
         };
 
         asset.SetAudits(createdAtUtc, updatedAtUtc);
