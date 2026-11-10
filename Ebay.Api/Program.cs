@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-using Ebay.Api.Extensions;
 using Ebay.Api.Middleware;
 using Ebay.Application;
 using Ebay.Infrastructure;
@@ -23,8 +21,7 @@ if (app.Environment.IsDevelopment())
 {
     //app.MapOpenApi();
 
-    //app.ApplyMigrations();
-
+    // Uncomment to seed data
     //await SeedAsync(app);
 }
 

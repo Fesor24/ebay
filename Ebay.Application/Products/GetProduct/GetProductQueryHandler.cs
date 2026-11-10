@@ -23,10 +23,10 @@ internal sealed class GetProductQueryHandler : IQueryHandler<GetProductQuery, Pr
                 Id,
                 Name,
                 Description,
-                Price,
-                Currency
+                money_amount AS Price,
+                money_currency AS Currency
             FROM prd.Products
-            WHERE p.Id = @ProductId
+            WHERE Id = @ProductId
 
             """;
 

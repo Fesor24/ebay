@@ -16,9 +16,11 @@ public class ProductController : ControllerBase
         _sender = sender;
     }
 
-    [HttpGet("/:productId")]
+    [HttpGet("{productId:guid}")]
     public async Task<IActionResult> GetProduct(Guid productId)
     {
+        Console.WriteLine("Api hit...");
+
         var request = new GetProductQuery(productId);
 
         var result = await _sender.Send(request);
@@ -27,5 +29,16 @@ public class ProductController : ControllerBase
             return BadRequest(result);
 
         return Ok(result.Value);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetProduct()
+    {
+       
+
+        return Ok(new
+        {
+            message = "API working..."
+        });
     }
 }
