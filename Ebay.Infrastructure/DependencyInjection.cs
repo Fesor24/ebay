@@ -1,13 +1,17 @@
-﻿using Ebay.Application.Abstractions.Clock;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Ebay.Application.Abstractions.Clock;
 using Ebay.Application.Abstractions.Data;
 using Ebay.Application.Abstractions.Email;
 using Ebay.Domain.Abstractions;
 using Ebay.Infrastructure.Clock;
 using Ebay.Infrastructure.Data;
 using Ebay.Infrastructure.Email;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Ebay.Infrastructure;
 
@@ -35,6 +39,8 @@ public static class DependencyInjection
 
         AddScopedServices(services);
 
+        ConfigureAuth(services, configuration);
+
         return services;
     }
 
@@ -60,5 +66,33 @@ public static class DependencyInjection
                 services.AddScoped(serviceInterface, implementation);
             }
         }
+    }
+
+    public static void ConfigureAuth(IServiceCollection services, IConfiguration config)
+    {
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+            .AddJwtBearer(options =>
+            {
+                options.MapInboundClaims = false;
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = config["JwtSettings:Issuer"],
+                    ValidAudience = config["JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:Key"])),
+                    ClockSkew = TimeSpan.Zero,
+                    NameClaimType = JwtRegisteredClaimNames.Name,
+                    RoleClaimType = "role"
+                };
+            });
+
+        services.AddAuthorization();
     }
 }

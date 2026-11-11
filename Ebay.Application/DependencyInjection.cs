@@ -1,5 +1,7 @@
 ﻿using Ebay.Application.Abstractions.Behaviors;
+using Ebay.Domain.Users;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ebay.Application;
@@ -18,6 +20,8 @@ public static class DependencyInjection
         });
 
         services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
+
+        services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
         return services;
     }

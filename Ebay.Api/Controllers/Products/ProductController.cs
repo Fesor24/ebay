@@ -19,26 +19,13 @@ public class ProductController : ControllerBase
     [HttpGet("{productId:guid}")]
     public async Task<IActionResult> GetProduct(Guid productId)
     {
-        Console.WriteLine("Api hit...");
-
         var request = new GetProductQuery(productId);
 
         var result = await _sender.Send(request);
 
         if (result.IsFailure)
-            return BadRequest(result);
+            return NotFound(result.Error);
 
         return Ok(result.Value);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetProduct()
-    {
-       
-
-        return Ok(new
-        {
-            message = "API working..."
-        });
     }
 }
