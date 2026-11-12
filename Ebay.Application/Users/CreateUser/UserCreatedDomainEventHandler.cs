@@ -7,7 +7,7 @@ internal sealed class UserCreatedDomainEventHandler : INotificationHandler<UserC
 {
     public Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
     {
-        Console.WriteLine("User created with Id + " + notification.UserId.ToString());\c
+        Console.WriteLine("User created with Id + " + notification.UserId.ToString());
 
         return Task.CompletedTask;
     }

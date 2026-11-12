@@ -4,6 +4,7 @@ namespace Ebay.Domain.Users;
 
 public sealed class User : AuditableEntity
 {
+    private User() { }
     public User(Guid id) : base(id)
     {
 
@@ -16,39 +17,38 @@ public sealed class User : AuditableEntity
     public string PhoneNo { get; private set; }
     public Address Address { get; private set; }
     public string Password { get; private set; }
-    //public Guid WishlistId {  get; private set; }   
+    //public Guid WishlistId {  get; private set; }
+    public Guid RoleId { get; private set; }
     public Role Role { get; private set; }
 
     public static User Create(Guid userId, string firstName, string lastName, string email, string phoneNo,
-        string street, string city, string country, string postCode, string password, string username)
+        string street, string city, string country, string postCode, string username, Guid roleId)
     {
-        User user = new(userId)
+        return new User(userId)
         {
             FirstName = firstName,
             LastName = lastName,
-            Email = email,
+            Email = email.ToLower(),
             PhoneNo = phoneNo,
             Address = new(street, city, country, postCode),
-            Username = username
+            Username = username.ToLower(),
+            RoleId = roleId
         };
-
-        return user;
     }
 
-    public static User Create(Guid userId, string firstName, string lastName, string email, string phoneNo,
-      string password, string username)
+    public static User Create(Guid userId, string firstName, string lastName, 
+        string email, string phoneNo, string username, Guid roleId)
     {
-        User user = new(userId)
+        return new User(userId)
         {
             FirstName = firstName,
             LastName = lastName,
-            Email = email,
+            Email = email.ToLower(),
             PhoneNo = phoneNo,
             Address = new("", "", "", ""),
-            Username = username
+            Username = username.ToLower(),
+            RoleId = roleId
         };
-
-        return user;
     }
 
     public void SetPassword(string hashedPassword)

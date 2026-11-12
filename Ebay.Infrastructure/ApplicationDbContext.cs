@@ -56,4 +56,5 @@ public sealed class ApplicationDbContext(DbContextOptions options, IPublisher pu
 internal static class Schema
 {
     internal static string Products = "prd";
+    internal static string User = "usr";
 }

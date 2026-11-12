@@ -38,6 +38,7 @@ public class ExceptionHandlingMiddleware
             ValidationException ex => (StatusCodes.Status400BadRequest,  HandleValidationError(ex.Errors)),
             BadRequestException ex => (StatusCodes.Status400BadRequest, new ApiResponse(new Error("bad.request", ex.Message))),
             NotFoundException ex => (StatusCodes.Status404NotFound, new ApiResponse(new Error("not.found", ex.Message))),
+            UnauthorizedAccessException ex => (StatusCodes.Status401Unauthorized, new ApiResponse(new Error("unauthorized", ex.Message))),
             _ => (StatusCodes.Status500InternalServerError, new ApiResponse(new Error("server.error", exception.Message)))
         };
 

@@ -1,6 +1,8 @@
-﻿namespace Ebay.Application.Abstractions.Email;
+﻿using Ebay.Domain.Abstractions;
 
-public interface IEmailService
+namespace Ebay.Application.Abstractions.Email;
+
+public interface IEmailService : IScopedService
 {
     Task SendAsync(string email, string body, string subject);
 }

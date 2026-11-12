@@ -7,6 +7,7 @@ using Ebay.Domain.Abstractions;
 using Ebay.Infrastructure.Clock;
 using Ebay.Infrastructure.Data;
 using Ebay.Infrastructure.Email;
+using Ebay.Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -40,6 +41,8 @@ public static class DependencyInjection
         AddScopedServices(services);
 
         ConfigureAuth(services, configuration);
+
+        AddOptions(services, configuration);
 
         return services;
     }
@@ -94,5 +97,18 @@ public static class DependencyInjection
             });
 
         services.AddAuthorization();
+    }
+
+    public static void AddOptions(IServiceCollection services, IConfiguration config)
+    {
+        //JwtSettings jwtSettings = new();
+        //config.GetSection(jwtSettings.NAME).Bind(jwtSettings);
+
+        //services.ConfigureOptions<JwtSettings>();
+
+        //services.AddOptions<JwtSettings>(JwtSettings.NAME);
+
+        services.Configure<JwtSettings>(config.GetSection(JwtSettings.NAME));
+
     }
 }

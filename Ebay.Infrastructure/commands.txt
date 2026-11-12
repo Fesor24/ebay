@@ -3,4 +3,8 @@ This can be used to create the first migration
 Create the directory first before running this 'Data/Scripts'
 dotnet ef migrations script -s Ebay.Api -p Ebay.Infrastructure --output Ebay.Infrastructure/Data/Scripts/init
 
+To create subsequent new migration scripts
+last migration cs file is the file where you want the migration to be created from
+dotnet ef migrations script <last-migration-cs-file> -s Ebay.Api -p Ebay.Infrastructure --output Ebay.Infrastructure/Data/Scripts/01_users_Script
+
 

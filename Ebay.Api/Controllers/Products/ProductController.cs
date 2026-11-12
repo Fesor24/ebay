@@ -1,5 +1,6 @@
 ﻿using Ebay.Application.Products.GetProduct;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ebay.Api.Controllers.Products;
@@ -7,21 +8,15 @@ namespace Ebay.Api.Controllers.Products;
 
 [ApiController]
 [Route("api/products")]
-public class ProductController : ControllerBase
+[Authorize]
+public class ProductController(ISender sender) : ParentController(sender)
 {
-    private readonly ISender _sender;
-
-    public ProductController(ISender sender)
-    {
-        _sender = sender;
-    }
-
     [HttpGet("{productId:guid}")]
     public async Task<IActionResult> GetProduct(Guid productId)
     {
         var request = new GetProductQuery(productId);
 
-        var result = await _sender.Send(request);
+        var result = await Sender.Send(request);
 
         if (result.IsFailure)
             return NotFound(result.Error);
