@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Ebay.Infrastructure;
@@ -94,6 +95,52 @@ public static class DependencyInjection
                     NameClaimType = JwtRegisteredClaimNames.Name,
                     RoleClaimType = "role"
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = ctx =>
+                    {
+                        var logger = ctx.HttpContext.RequestServices
+                            .GetRequiredService<ILoggerFactory>()
+                            .CreateLogger("JwtAuthentication");
+
+                        logger.LogError(ctx.Exception,
+                            "JWT authentication failed: {Message}", ctx.Exception.Message);
+
+                        return Task.CompletedTask;
+                    },
+
+                    OnTokenValidated = ctx =>
+                    {
+                        var logger = ctx.HttpContext.RequestServices
+                            .GetRequiredService<ILoggerFactory>()
+                            .CreateLogger("JwtAuthentication");
+
+                        logger.LogInformation(
+                            "JWT successfully validated for user: {User}",
+                            ctx.Principal?.Identity?.Name ?? "Unknown"
+                            );
+
+                        return Task.CompletedTask;
+                    },
+
+                    OnChallenge = ctx =>
+                    {
+                        var logger = ctx.HttpContext.RequestServices
+                            .GetRequiredService<ILoggerFactory>()
+                            .CreateLogger("JwtAuthentication");
+
+                        logger.LogWarning(
+                            "JWT Challenge: Error={Error}, Description={Description}",
+                            ctx.Error,
+                            ctx.ErrorDescription
+                            );
+
+                        return Task.CompletedTask;
+                    }
+
+
+                };
             });
 
         services.AddAuthorization();
@@ -101,13 +148,6 @@ public static class DependencyInjection
 
     public static void AddOptions(IServiceCollection services, IConfiguration config)
     {
-        //JwtSettings jwtSettings = new();
-        //config.GetSection(jwtSettings.NAME).Bind(jwtSettings);
-
-        //services.ConfigureOptions<JwtSettings>();
-
-        //services.AddOptions<JwtSettings>(JwtSettings.NAME);
-
         services.Configure<JwtSettings>(config.GetSection(JwtSettings.NAME));
 
     }
