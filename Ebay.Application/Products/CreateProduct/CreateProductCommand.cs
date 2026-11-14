@@ -10,3 +10,4 @@ public sealed record CreateProductCommand(
     Guid CategoryId
     ) : 
     ICommand<Guid>;
+
