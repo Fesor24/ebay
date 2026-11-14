@@ -1,7 +1,26 @@
 services:
-  ebay.api:
-    image: ${DOCKER_REGISTRY-}ebayapi
-    container_name: Ebay.Api
-    build:
-      context: .
-      dockerfile: Ebay.Api/Dockerfile
+  #ebay.api:
+   # image: ${DOCKER_REGISTRY-}ebayapi
+    #container_name: Ebay.Api
+    #build:
+     # context: .
+      #dockerfile: Ebay.Api/Dockerfile
+
+  typesense:
+    image: typesense/typesense:31.0.rc25
+    container_name: Ebay.Typesense
+    restart: on-failure
+    ports:
+      - "8108:8108"
+    volumes:
+      - ./typesense-data:/data
+    command: '--data-dir /data --api-key=my-ebay-typesense-key --enable-cors'
+
+  typesense_dashboard:
+    image: bfritscher/typesense-dashboard:latest
+    container_name: Ebay.Typesense.Dashboard
+    restart: on-failure
+    ports:
+      - "8109:80"
+
+
