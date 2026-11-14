@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Typesense.Setup;
 
 namespace Ebay.Infrastructure;
 
@@ -44,6 +45,8 @@ public static class DependencyInjection
         ConfigureAuth(services, configuration);
 
         AddOptions(services, configuration);
+
+        ConfigureTypeSense(services, configuration);
 
         return services;
     }
@@ -150,5 +153,24 @@ public static class DependencyInjection
     {
         services.Configure<JwtSettings>(config.GetSection(JwtSettings.NAME));
 
+    }
+
+    public static void ConfigureTypeSense(IServiceCollection services, IConfiguration config)
+    {
+        string apiKey = config["Typesense:ApiKey"] ?? 
+            throw new ArgumentNullException("Typesense API key missing");
+        string host = config["Typesense:Host"] ?? "localhost";
+        string port = config["Typesense:Port"] ?? "8108";
+        string protocol = config["Typesense:Protocol"] ?? "http";
+
+
+        services.AddTypesenseClient(cfg =>
+        {
+            cfg.ApiKey = apiKey;
+            cfg.Nodes = new List<Node>
+            {
+                new Node(host, port, protocol)
+            };
+        }, enableHttpCompression: false);
     }
 }

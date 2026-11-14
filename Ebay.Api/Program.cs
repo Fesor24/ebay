@@ -1,6 +1,7 @@
 using Ebay.Api.Middleware;
 using Ebay.Application;
 using Ebay.Infrastructure;
+using Typesense;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +22,8 @@ if (app.Environment.IsDevelopment())
 {
     //app.MapOpenApi();
 
-    // Uncomment to seed data
-    //await SeedAsync(app);
+    // Uncomment to seed data and create relevant typesense collections
+    await SeedAsync(app);
 }
 
 app.UseSwagger();
@@ -38,13 +39,15 @@ app.MapControllers();
 
 app.Run();
 
-async Task SeedAsync(IApplicationBuilder app)
+static async Task SeedAsync(IApplicationBuilder app)
 {
     var scope = app.ApplicationServices.CreateScope();
 
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-    var randomDataSeed = new RandomDataDbSeed(dbContext);
+    var typesenseClient = scope.ServiceProvider.GetRequiredService<ITypesenseClient>();
 
-    await randomDataSeed.InputData();
+    var dbInitializer = new DbInitializer(dbContext, typesenseClient);
+
+    await dbInitializer.Init();
 }
