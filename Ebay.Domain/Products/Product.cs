@@ -1,5 +1,6 @@
 ﻿using Ebay.Domain.Abstractions;
 using Ebay.Domain.Products.Events;
+using Ebay.Domain.Users;
 
 namespace Ebay.Domain.Products;
 
@@ -19,12 +20,14 @@ public sealed class Product : AuditableEntity, ISoftDeleteable
     public string Location { get; private set;  }
 
     public bool IsDeleted { get; private set; } = false;
+    public Guid UserId { get; private set; }
+    public User User { get; private set; }
     public Guid CategoryId { get; private set; }
     public Category Category { get; private set; }
     //public ICollection<Asset> Assets { get; private set; } = [];
 
     public static Product Create(Guid productId, string name, string description,
-        List<string> tags,string location, decimal price, Guid categoryId, string currency,
+        List<string> tags,string location, decimal price, Guid categoryId, string currency, Guid userId,
         DateTime createdAtUtc)
     {
         Product product = new(productId)

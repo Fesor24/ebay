@@ -26,5 +26,9 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
             .WithMany(cat => cat.Products)
             .HasForeignKey(prd => prd.CategoryId);
 
+        builder.HasOne(prd => prd.User)
+            .WithMany(usr => usr.Products)
+            .HasForeignKey(prd => prd.UserId);
+
     }
 }

@@ -7,18 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ebay.Api.Controllers.Users;
 
-[ApiController]
 [Route("api/users")]
 [Authorize]
-public class UserController(ISender sender) : ControllerBase
+public class UserController : ParentController
 {
-    private readonly ISender _sender = sender;
-
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> CreateUser([FromBody]CreateUserCommand request)
     {
-        var result = await _sender.Send(request);
+        var result = await Sender.Send(request);
 
         if (result.IsFailure)
             return BadRequest(result.Error);
@@ -29,12 +26,7 @@ public class UserController(ISender sender) : ControllerBase
     [HttpGet("profile")]
     public async Task<ActionResult<ApiResponse<GetUserResponse>>> GetUser()
     {
-        string? email = HttpContext.User.Claims.FirstOrDefault(cl => cl.Type == JwtRegisteredClaimNames.Email)?.Value;
-
-        if (string.IsNullOrWhiteSpace(email))
-            return Unauthorized("User not authorized");
-
-        var result = await _sender.Send(new GetUserQuery(email));
+        var result = await Sender.Send(new GetUserQuery(Email));
 
         if (result.IsFailure)
             return Unauthorized("User not found");

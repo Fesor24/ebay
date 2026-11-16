@@ -27,6 +27,8 @@ public static class DependencyInjection
 
         services.AddTransient<IEmailService, EmailService>();
 
+        services.AddScoped(typeof(ISearchService<>), typeof(SearchService<>));
+
         var connectionString = configuration.GetConnectionString("Database") ??
             throw new ArgumentNullException(nameof(configuration));
 

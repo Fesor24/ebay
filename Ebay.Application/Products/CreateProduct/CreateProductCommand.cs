@@ -7,7 +7,8 @@ public sealed record CreateProductCommand(
     string Description,
     List<string> Tags,
     decimal Price,
-    Guid CategoryId
+    Guid CategoryId,
+    Guid UserId
     ) : 
     ICommand<Guid>;
 

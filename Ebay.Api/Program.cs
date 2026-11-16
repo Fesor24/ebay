@@ -23,7 +23,7 @@ if (app.Environment.IsDevelopment())
     //app.MapOpenApi();
 
     // Uncomment to seed data and create relevant typesense collections
-    await SeedAsync(app);
+    //await SeedAsync(app);
 }
 
 app.UseSwagger();

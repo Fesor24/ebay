@@ -34,7 +34,7 @@ internal sealed class CreateProductCommandHandler : ICommandHandler<CreateProduc
         Guid productId = Guid.NewGuid();
 
         Product product = Product.Create(productId, request.Name, request.Description, request.Tags,
-            "London",request.Price, category.Id, Currency.Usd.Code, _dateTimeProvider.UtcNow);
+            "London",request.Price, category.Id, Currency.Gbp.Code, request.UserId, _dateTimeProvider.UtcNow);
 
         _productRepository.Add(product);
 

@@ -2,7 +2,7 @@
 
 namespace Ebay.Application.Abstractions.Data;
 
-public interface ISearchService<TDocument> : IScopedService
+public interface ISearchService<TDocument>
     where TDocument : class
 {
     /// <summary>
