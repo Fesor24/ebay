@@ -37,8 +37,9 @@ public sealed class Product : AuditableEntity, ISoftDeleteable
             Description = description,
             Tags = tags,
             Location = location,
-            Money = new Money(price, Currency.Gbp),
-            CategoryId = categoryId
+            Money = new Money(price, Currency.Gbp), // defaulting to GBP currency
+            CategoryId = categoryId,
+            UserId = userId,
         };
 
         product.SetAudits(createdAtUtc);

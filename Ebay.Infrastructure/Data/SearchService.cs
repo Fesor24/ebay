@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using Ebay.Application.Abstractions.Data;
 using Typesense;
 
@@ -30,6 +31,39 @@ internal sealed class SearchService<TDocument> : ISearchService<TDocument>
     public async Task IndexAsync(TDocument document, string collection, CancellationToken cancellationToken = default)
     {
         await _client.CreateDocument<TDocument>(collection, document, cancellationToken);
+    }
+
+    public async Task<(IReadOnlyList<TDocument> Items, int Count, int PageNumber)> Search(string searchTerm, decimal minPrice, decimal maxPrice, 
+        CancellationToken cancellationToken = default)
+    {
+        string? filterBy = default;
+
+        if (minPrice > 0 && maxPrice > 0)
+            filterBy = $"price:>{minPrice}&&price:<{maxPrice}";
+
+        else if (minPrice > 0)
+            filterBy = $"price:>{minPrice}";
+
+        else if (maxPrice > 0)
+            filterBy = $"price:<{maxPrice}";
+
+        else filterBy = null;
+
+        var query = new SearchParameters(searchTerm, "name")
+        {
+            SortBy = "price:asc",
+            Page = 1,
+            PerPage = 15,
+            FilterBy = filterBy
+        };
+
+        var searchResult = await _client.Search<TDocument>(_collection, query, cancellationToken);
+
+        return (
+            searchResult.Hits.Select(h => h.Document).ToList(),
+            searchResult.Found,
+            searchResult.Page
+            );
     }
 
 

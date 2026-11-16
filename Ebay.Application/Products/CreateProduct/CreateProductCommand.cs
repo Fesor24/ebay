@@ -1,4 +1,5 @@
 ﻿using Ebay.Application.Abstractions.Messaging;
+using FluentValidation;
 
 namespace Ebay.Application.Products.CreateProduct;
 
@@ -11,4 +12,5 @@ public sealed record CreateProductCommand(
     Guid UserId
     ) : 
     ICommand<Guid>;
+
 

@@ -16,6 +16,8 @@ public interface ISearchService<TDocument>
     /// </summary>
     /// <returns></returns>
     Task IndexAsync(TDocument document, string collection, CancellationToken cancellationToken = default);
+    Task<(IReadOnlyList<TDocument> Items, int Count, int PageNumber)> Search(string searchTerm, decimal minPrice, decimal maxPrice,
+        CancellationToken cancellationToken = default);
 
     Task UpdateAsync(TDocument document, string documentId, 
         CancellationToken cancellationToken = default);

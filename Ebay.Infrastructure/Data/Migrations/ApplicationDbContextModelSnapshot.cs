@@ -93,11 +93,18 @@ namespace Ebay.Infrastructure.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at_utc");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_products");
 
                     b.HasIndex("CategoryId")
                         .HasDatabaseName("ix_products_category_id");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_products_user_id");
 
                     b.ToTable("products", "prd");
                 });
@@ -206,6 +213,13 @@ namespace Ebay.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_products_category_category_id");
 
+                    b.HasOne("Ebay.Domain.Users.User", "User")
+                        .WithMany("Products")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_products_user_user_id");
+
                     b.OwnsOne("Ebay.Domain.Products.Money", "Money", b1 =>
                         {
                             b1.Property<Guid>("ProductId")
@@ -234,6 +248,8 @@ namespace Ebay.Infrastructure.Data.Migrations
 
                     b.Navigation("Money")
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Ebay.Domain.Users.User", b =>
@@ -291,6 +307,11 @@ namespace Ebay.Infrastructure.Data.Migrations
                 });
 
             modelBuilder.Entity("Ebay.Domain.Products.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Ebay.Domain.Users.User", b =>
                 {
                     b.Navigation("Products");
                 });

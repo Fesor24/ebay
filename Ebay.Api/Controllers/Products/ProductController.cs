@@ -1,5 +1,6 @@
 ﻿using Ebay.Application.Products.CreateProduct;
 using Ebay.Application.Products.GetProduct;
+using Ebay.Application.Products.SearchProducts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,16 @@ public class ProductController(ISender sender) : ParentController
 
         if(result.IsFailure)
             return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Search([FromQuery] string searchValue, decimal? minPrice, decimal? maxPrice)
+    {
+        var request = new SearchProductsQuery(searchValue, minPrice, maxPrice);
+
+        var result = await sender.Send(request);
 
         return Ok(result.Value);
     }

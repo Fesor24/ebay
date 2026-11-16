@@ -5,7 +5,6 @@ public sealed record ProductResponse(
     string Name,
     string Description,
     decimal Price,
-    string Location,
-    string Currency,
+    string StrPrice,
     DateTime CreatedAt
     );

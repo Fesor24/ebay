@@ -6,14 +6,20 @@ internal sealed class CreateProductCommandValidator : AbstractValidator<CreatePr
 {
     public CreateProductCommandValidator()
     {
-        RuleFor(prd => prd.Price > 0);
-
         RuleFor(prd => prd.Name)
-            .NotEmpty()
-            .NotNull();
+            .NotNull().WithMessage("Name can not by null")
+            .NotEmpty().WithMessage("Name can not be empty");
 
         RuleFor(prd => prd.Description)
-            .NotNull()
-            .NotEmpty();
+            .NotNull().WithMessage("Description can not be null")
+            .NotEmpty().WithMessage("Description can not be empty");
+
+        RuleFor(prd => prd.Price)
+            .GreaterThan(1)
+            .WithMessage("Price must be greater than one");
+
+        RuleFor(prd => prd.CategoryId)
+            .NotNull().WithMessage("Category id can not be null")
+            .NotEmpty().WithMessage("Category id can not be empty");
     }
 }
