@@ -42,6 +42,56 @@ namespace Ebay.Infrastructure.Data.Migrations
                     b.ToTable("category", "prd");
                 });
 
+            modelBuilder.Entity("Ebay.Domain.Products.Chat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)")
+                        .HasColumnName("message");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<Guid>("RecipientId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("recipient_id");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sender_id");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at_utc");
+
+                    b.HasKey("Id")
+                        .HasName("pk_chats");
+
+                    b.HasIndex("ProductId")
+                        .HasDatabaseName("ix_chats_product_id");
+
+                    b.HasIndex("RecipientId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_chats_recipient_id");
+
+                    b.HasIndex("SenderId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_chats_sender_id");
+
+                    b.ToTable("chats", "prd");
+                });
+
             modelBuilder.Entity("Ebay.Domain.Products.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -204,6 +254,36 @@ namespace Ebay.Infrastructure.Data.Migrations
                     b.ToTable("users", "usr");
                 });
 
+            modelBuilder.Entity("Ebay.Domain.Products.Chat", b =>
+                {
+                    b.HasOne("Ebay.Domain.Products.Product", "Product")
+                        .WithMany("Chats")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_chats_product_product_id");
+
+                    b.HasOne("Ebay.Domain.Users.User", "Recipient")
+                        .WithOne()
+                        .HasForeignKey("Ebay.Domain.Products.Chat", "RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_chats_user_recipient_id");
+
+                    b.HasOne("Ebay.Domain.Users.User", "Sender")
+                        .WithOne()
+                        .HasForeignKey("Ebay.Domain.Products.Chat", "SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_chats_user_sender_id");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("Ebay.Domain.Products.Product", b =>
                 {
                     b.HasOne("Ebay.Domain.Products.Category", "Category")
@@ -309,6 +389,11 @@ namespace Ebay.Infrastructure.Data.Migrations
             modelBuilder.Entity("Ebay.Domain.Products.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Ebay.Domain.Products.Product", b =>
+                {
+                    b.Navigation("Chats");
                 });
 
             modelBuilder.Entity("Ebay.Domain.Users.User", b =>
