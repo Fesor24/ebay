@@ -1,6 +1,7 @@
 using Ebay.Api.Middleware;
 using Ebay.Application;
 using Ebay.Infrastructure;
+using Ebay.Infrastructure.Hubs;
 using Typesense;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +37,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/chat-hub")
+    .RequireAuthorization();
 
 app.Run();
 

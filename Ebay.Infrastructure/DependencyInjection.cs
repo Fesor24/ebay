@@ -7,8 +7,10 @@ using Ebay.Domain.Abstractions;
 using Ebay.Infrastructure.Clock;
 using Ebay.Infrastructure.Data;
 using Ebay.Infrastructure.Email;
+using Ebay.Infrastructure.Hubs;
 using Ebay.Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +43,10 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
         services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
+
+        services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+
+        services.AddSignalR();
 
         AddScopedServices(services);
 
