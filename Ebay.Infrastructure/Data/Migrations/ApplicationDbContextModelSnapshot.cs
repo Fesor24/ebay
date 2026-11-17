@@ -82,11 +82,9 @@ namespace Ebay.Infrastructure.Data.Migrations
                         .HasDatabaseName("ix_chats_product_id");
 
                     b.HasIndex("RecipientId")
-                        .IsUnique()
                         .HasDatabaseName("ix_chats_recipient_id");
 
                     b.HasIndex("SenderId")
-                        .IsUnique()
                         .HasDatabaseName("ix_chats_sender_id");
 
                     b.ToTable("chats", "prd");
@@ -264,15 +262,15 @@ namespace Ebay.Infrastructure.Data.Migrations
                         .HasConstraintName("fk_chats_product_product_id");
 
                     b.HasOne("Ebay.Domain.Users.User", "Recipient")
-                        .WithOne()
-                        .HasForeignKey("Ebay.Domain.Products.Chat", "RecipientId")
+                        .WithMany()
+                        .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_chats_user_recipient_id");
 
                     b.HasOne("Ebay.Domain.Users.User", "Sender")
-                        .WithOne()
-                        .HasForeignKey("Ebay.Domain.Products.Chat", "SenderId")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_chats_user_sender_id");

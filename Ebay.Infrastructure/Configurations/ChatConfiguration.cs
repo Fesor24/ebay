@@ -16,8 +16,8 @@ internal sealed class ChatConfiguration : IEntityTypeConfiguration<Chat>
             .WithMany(pr => pr.Chats)
             .HasForeignKey(ch => ch.ProductId);
         builder.HasOne(ch => ch.Sender)
-            .WithOne();
+            .WithMany();
         builder.HasOne(ch => ch.Recipient)
-            .WithOne();
+            .WithMany();
     }
 }

@@ -53,6 +53,8 @@ public class ChatHub(ApplicationDbContext dbContext, IDateTimeProvider dateTimeP
 
         await _dbContext.Set<Chat>().AddAsync(chat);
 
+        await _dbContext.SaveChangesAsync();
+
         await Clients.User(recipientUserId).SendAsync("ReceiveChatMessage", messageToSend);
     }
 
