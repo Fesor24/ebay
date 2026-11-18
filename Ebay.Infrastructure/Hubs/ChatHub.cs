@@ -7,22 +7,22 @@ using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Ebay.Infrastructure.Hubs;
 
-public class ChatHub(ApplicationDbContext dbContext, IDateTimeProvider dateTimeProvider) : Hub
+public class ChatHub(ApplicationDbContext dbContext, IDateTimeProvider dateTimeProvider) : Hub<IChatClient>
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
     private readonly IDateTimeProvider _dateTimeProvider = dateTimeProvider;
 
     public async Task SendMessage(string userId, string message)
     {
-        var newMessage = new
-        {
-            userId,
-            message
-        };
+        //var newMessage = new
+        //{
+        //    userId,
+        //    message
+        //};
 
-        string messageToSend = JsonSerializer.Serialize(newMessage);
+        //string messageToSend = JsonSerializer.Serialize(newMessage);
 
-        await Clients.All.SendAsync("ReceiveMessage", messageToSend);
+        await Clients.All.ReceiveMessage(userId, message);
     }
 
     public async Task SendChatMessage(string recipientUserId, string productId, string message)
@@ -55,7 +55,7 @@ public class ChatHub(ApplicationDbContext dbContext, IDateTimeProvider dateTimeP
 
         await _dbContext.SaveChangesAsync();
 
-        await Clients.User(recipientUserId).SendAsync("ReceiveChatMessage", messageToSend);
+        await Clients.User(recipientUserId).ReceiveChatMessage(recipientUserId, chat.Message);
     }
 
     public override Task OnConnectedAsync()
