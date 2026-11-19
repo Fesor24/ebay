@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ebay.Api.Controllers.Users;
 
 [Route("api/users")]
-[Authorize]
 public class UserController : ParentController
 {
     [HttpPost]

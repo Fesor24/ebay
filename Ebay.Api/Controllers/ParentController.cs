@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Ebay.Api.Controllers;
 
 [ApiController]
+[Authorize]
 public class ParentController: ControllerBase
 {
     protected ISender Sender

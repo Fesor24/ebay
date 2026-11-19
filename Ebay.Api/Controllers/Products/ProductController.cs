@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ebay.Api.Controllers.Products;
 
 [Route("api/products")]
-[Authorize]
 public class ProductController(ISender sender) : ParentController
 {
     [HttpGet("{productId:guid}")]

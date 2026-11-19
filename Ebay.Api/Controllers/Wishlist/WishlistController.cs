@@ -1,5 +1,4 @@
 ﻿using Ebay.Application.Wishlist.CreateWishlist;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ebay.Api.Controllers.Wishlist;
@@ -10,6 +9,11 @@ public class WishlistController : ParentController
     public async Task<IActionResult> CreateWishlist([FromBody] CreateWishlistCommand request, 
         CancellationToken cancellationToken)
     {
+        request = request with
+        {
+            UserId = UserId
+        };
+
         var result = await Sender.Send(request, cancellationToken);
 
         if (result.IsFailure)

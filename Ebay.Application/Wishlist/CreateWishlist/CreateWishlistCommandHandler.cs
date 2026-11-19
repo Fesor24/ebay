@@ -25,10 +25,11 @@ internal sealed class CreateWishlistCommandHandler : ICommandHandler<CreateWishl
     }
     public async Task<Result<Guid>> Handle(CreateWishlistCommand request, CancellationToken cancellationToken)
     {
-        var productExist = (await _productRepository.GetByIdAsync(request.ProductId, cancellationToken)) != null;
-
-        if(!productExist)
+        var product = await _productRepository.GetByIdAsync(request.ProductId, cancellationToken) ??
             throw new NotFoundException("Product not found");
+
+        if(product.UserId == request.UserId)
+            throw new BadRequestException("You cannot add your own product to wishlist");
 
         var wishlist = WishlistDomain.Create(Guid.NewGuid(),request.UserId, 
             request.ProductId, _dateTimeProvider.UtcNow);
