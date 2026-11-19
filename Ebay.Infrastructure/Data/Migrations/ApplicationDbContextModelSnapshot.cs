@@ -252,6 +252,37 @@ namespace Ebay.Infrastructure.Data.Migrations
                     b.ToTable("users", "usr");
                 });
 
+            modelBuilder.Entity("Ebay.Domain.Wishlist.Wishlist", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_wishlists");
+
+                    b.HasIndex("ProductId")
+                        .HasDatabaseName("ix_wishlists_product_id");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_wishlists_user_id");
+
+                    b.ToTable("wishlists", "usr");
+                });
+
             modelBuilder.Entity("Ebay.Domain.Products.Chat", b =>
                 {
                     b.HasOne("Ebay.Domain.Products.Product", "Product")
@@ -384,6 +415,27 @@ namespace Ebay.Infrastructure.Data.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("Ebay.Domain.Wishlist.Wishlist", b =>
+                {
+                    b.HasOne("Ebay.Domain.Products.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_wishlists_products_product_id");
+
+                    b.HasOne("Ebay.Domain.Users.User", "User")
+                        .WithMany("Wishlists")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_wishlists_users_user_id");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Ebay.Domain.Products.Category", b =>
                 {
                     b.Navigation("Products");
@@ -397,6 +449,8 @@ namespace Ebay.Infrastructure.Data.Migrations
             modelBuilder.Entity("Ebay.Domain.Users.User", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("Wishlists");
                 });
 #pragma warning restore 612, 618
         }

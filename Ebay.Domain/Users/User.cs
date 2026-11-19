@@ -21,7 +21,8 @@ public sealed class User : AuditableEntity
     //public Guid WishlistId {  get; private set; }
     public Guid RoleId { get; private set; }
     public Role Role { get; private set; }
-    public List<Product> Products { get; private set;  }
+    public List<Product> Products { get; private set; } = [];
+    public ICollection<Wishlist.Wishlist> Wishlists { get; private set; } = [];
 
     public static User Create(Guid userId, string firstName, string lastName, string email, string phoneNo,
         string street, string city, string country, string postCode, string username, Guid roleId)
