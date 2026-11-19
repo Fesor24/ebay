@@ -18,8 +18,4 @@
     <ProjectReference Include="..\Ebay.Domain\Ebay.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Wishlist\GetWishlistByUser\" />
-  </ItemGroup>
-
 </Project>
