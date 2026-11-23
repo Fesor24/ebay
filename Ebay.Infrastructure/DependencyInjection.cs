@@ -1,9 +1,11 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using Ebay.Application.Abstractions.Cache;
 using Ebay.Application.Abstractions.Clock;
 using Ebay.Application.Abstractions.Data;
 using Ebay.Application.Abstractions.Email;
 using Ebay.Domain.Abstractions;
+using Ebay.Infrastructure.Cache;
 using Ebay.Infrastructure.Clock;
 using Ebay.Infrastructure.Data;
 using Ebay.Infrastructure.Email;
@@ -30,6 +32,8 @@ public static class DependencyInjection
         services.AddTransient<IEmailService, EmailService>();
 
         services.AddScoped(typeof(ISearchService<>), typeof(SearchService<>));
+
+        services.AddScoped<ICacheService, CacheService>();
 
         var connectionString = configuration.GetConnectionString("Database") ??
             throw new ArgumentNullException(nameof(configuration));
