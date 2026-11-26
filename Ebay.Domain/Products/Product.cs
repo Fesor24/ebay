@@ -49,4 +49,9 @@ public sealed class Product : AuditableEntity, ISoftDeleteable
 
         return product;
     }
+
+    public void UpdateStatus(ProductStatus status)
+    {
+        Status = status;
+    }
 }

@@ -57,4 +57,5 @@ internal static class Schema
 {
     internal static string Products = "prd";
     internal static string User = "usr";
+    internal static string Orders = "ord";
 }
